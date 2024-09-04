@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Management</title>
+</head>
+<body>
+    <h1>Admin Management</h1>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Add admin form -->
+    <form action="{{ url_for('add_admin') }}" method="POST">
+        <input type="email" name="email" placeholder="Enter user email" required>
+        <button type="submit">Add Admin</button>
+    </form>
+
+    <!-- List of admins -->
+    <h2>Current Admins</h2>
+    <ul>
+        {% for admin in admins %}
+        <li>
+            {{ admin.email }}
+            <form action="{{ url_for('remove_admin', user_id=admin.id) }}" method="POST" style="display:inline;">
+                <button type="submit">Remove Admin</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
